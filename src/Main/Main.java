@@ -3,6 +3,7 @@ package Main;
 import java.util.Collections;
 import java.util.Comparator;
 
+import dataSource.Csvwriter;
 import dataSource.Event;
 import generations.GenerationList;
 import generations.generation;
@@ -10,63 +11,43 @@ import generations.generation;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-    Event event= new Event(20);
-    event.seteventsize();
-    double[] bestp=new double[20000];
-    double min=100000;
-    double max=0;
-    GenerationList gel=new GenerationList();
-	for(int i=0;i<1000;i++) {
-		generation fg=new generation(20);
-		fg.init();
-		fg.settime(event);
-		fg.setConsumption();
-		fg.setEfficiency(event);
+
+		Event event = new Event(100);
+		double[] bestp = new double[10000];
+		double min = 100000;
+		double max = 0;
+		double bestm=0;
+		double bestv=0;
+		GenerationList gel = new GenerationList();
+		for (int i = 0; i < 1000; i++) {
+			generation fg = new generation(100);
+			fg.init();
+			gel.rating(fg, event);
+			gel.parentgenerations.add(fg);
+		}
+		bestp[0] = gel.max;
+		for (int i = 1; i < 1000; i++) {
+			bestp[i] = gel.evolve(1000, event);
+			System.out.println(bestp[i]);
+
+		}
 		
-//			System.out.println(fg.t1);
-//			System.out.println(fg.efficiency);
-		if(min>fg.rating(event))
-		min=fg.rating(event);
-		if(max<fg.rating(event))
-		max=fg.rating(event);
-		gel.parentgenerations.add(fg);
+		
+		System.out.print("The best gene sequence:");
+		for(int j=0;j<gel.bestg.equipcondition.length;j++) {
+			if(gel.bestg.equipcondition[j]) {
+				bestm+=event.eventplace[j];
+				bestv+=event.eventvalue[j];
+			System.out.print("1"+",");
+			}
+			else
+				System.out.print("0"+",");
+		}
+		System.out.println("\n"+"The money spend is:"+bestm);
+		System.out.println("The attack value is:"+bestv);
+		
+		Csvwriter ncsv = new Csvwriter();
+		ncsv.createCSVFile(bestp, "../", "data");
+
 	}
-	//System.out.println(max);
-	bestp[0]=max;
-	gel.min=min;
-	for(int i=1;i<10000;i++) {
-	bestp[i]=gel.evolve(1000, event);
-	//System.out.println(bestp[i]);
-	}
-	
-	
-	
-	
-//	for(double i:bestp) {
-//		System.out.println(i);
-//	}
-	
-	
-	
-	
-	
-	
-	
-//	Collections.sort(gel.parentgenerations,new Comparator<generation>() {
-//		public int compare(generation o1,generation o2) {
-//			if (o1.rating(event)>o2.rating(event))
-//				return 1;
-//			else if (o1.rating(event)==o2.rating(event)) {
-//				return 0;
-//			}else {
-//				return -1;
-//			}
-//		}
-//	});
-	
-	
-	
-	
-}
 }
