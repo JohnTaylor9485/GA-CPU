@@ -8,18 +8,18 @@ import dataSource.Event;
 public class GenerationList {
 	public GenerationList() {
 
-		parentgenerations = new ArrayList<generation>();
-		childgenerations = new ArrayList<generation>();
+		parentgenerations = new ArrayList<Generation>();
+		childgenerations = new ArrayList<Generation>();
 	}
 
-	public ArrayList<generation> parentgenerations;
-	public ArrayList<generation> childgenerations;
+	public ArrayList<Generation> parentgenerations;
+	public ArrayList<Generation> childgenerations;
 	public double min = 10000000;
 	public double max = 0;
-	public generation bestg;
+	public Generation bestg;
 
-	public static generation clone(generation g) {
-		generation ge = new generation(g.equipcondition.length);
+	public static Generation clone(Generation g) {
+		Generation ge = new Generation(g.equipcondition.length);
 
 		for (int i = 0; i < g.equipcondition.length; i++) {
 			ge.equipcondition[i] = g.equipcondition[i];
@@ -29,7 +29,7 @@ public class GenerationList {
 	}
 
 	public void mutationcild(Event event) {
-		for (generation g : childgenerations) {
+		for (Generation g : childgenerations) {
 			for (Boolean b : g.equipcondition) {
 				double k = Math.random();
 				if (k <= 0.01) {
@@ -45,7 +45,7 @@ public class GenerationList {
 		}
 	}
 
-	public double rating(generation g, Event e) {
+	public double rating(Generation g, Event e) {
 		int value = 0;
 		int weight = 0;
 		for (int i = 0; i < g.equipcondition.length; i++) {
@@ -89,11 +89,11 @@ public class GenerationList {
 	}
 
 	public double evolve(int popSize, Event event) {
-		childgenerations = new ArrayList<generation>();
+		childgenerations = new ArrayList<Generation>();
 		double[] ch = getchance(event);
 		while (childgenerations.size() < popSize) {
-			generation p1 = parentgenerations.get(pickone(ch));
-			generation p2 = parentgenerations.get(pickone(ch));
+			Generation p1 = parentgenerations.get(pickone(ch));
+			Generation p2 = parentgenerations.get(pickone(ch));
 			double grade = crossover(p1, p2, childgenerations, event);
 			if (max < grade)
 				max = grade;
@@ -103,14 +103,14 @@ public class GenerationList {
 		mutationcild(event);
 
 		parentgenerations = childgenerations;
-		childgenerations = new ArrayList<generation>();
+		childgenerations = new ArrayList<Generation>();
 
 		return max;
 	}
 
-	public double crossover(generation p1, generation p2, ArrayList<generation> child, Event event) {
-		generation g1 = clone(p1);
-		generation g2 = clone(p2);
+	public double crossover(Generation p1, Generation p2, ArrayList<Generation> child, Event event) {
+		Generation g1 = clone(p1);
+		Generation g2 = clone(p2);
 		int size = p1.equipcondition.length;
 		int a = ((int) (Math.random() * size)) % size;
 		int b = ((int) (Math.random() * size)) % size;

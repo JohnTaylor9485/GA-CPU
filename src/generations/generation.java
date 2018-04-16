@@ -5,10 +5,10 @@ import java.util.Random;
 
 import dataSource.Event;
 
-public class generation {
+public class Generation {
 public boolean[] equipcondition;
 
-public generation(int size) {
+public Generation(int size) {
 	equipcondition=new boolean[size];
 	}
 

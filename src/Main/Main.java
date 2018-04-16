@@ -6,7 +6,7 @@ import java.util.Comparator;
 import dataSource.Csvwriter;
 import dataSource.Event;
 import generations.GenerationList;
-import generations.generation;
+import generations.Generation;
 
 public class Main {
 
@@ -20,7 +20,7 @@ public class Main {
 		double bestv=0;
 		GenerationList gel = new GenerationList();
 		for (int i = 0; i < 1000; i++) {
-			generation fg = new generation(100);
+			Generation fg = new Generation(100);
 			fg.init();
 			gel.rating(fg, event);
 			gel.parentgenerations.add(fg);

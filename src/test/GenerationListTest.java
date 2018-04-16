@@ -9,30 +9,30 @@ import org.junit.jupiter.api.Test;
 
 import dataSource.Event;
 import generations.GenerationList;
-import generations.generation;
+import generations.Generation;
 
 class GenerationListTest {
 
 	@Test
 	void testclone() {
-		generation g=new generation(10);
+		Generation g=new Generation(10);
 		g.init();
 		GenerationList ge1 = new GenerationList();
-		generation gc=ge1.clone(g);
+		Generation gc=ge1.clone(g);
 		assertArrayEquals(g.equipcondition, gc.equipcondition);
 	}
 	
 	
 	@Test
 	void testgeneration() {
-		generation g=new generation(10);
+		Generation g=new Generation(10);
 		g.init();
 		assertEquals(g.equipcondition.length, 10);
 	}
 	
 	@Test
 	void testgenerationinit() {
-		generation g=new generation(10);
+		Generation g=new Generation(10);
 		g.init();
 		int count=0;
 		for(Boolean b:g.equipcondition)
@@ -60,12 +60,12 @@ class GenerationListTest {
 	
 	@Test
 	void testcrossover() {
-		generation p1=new generation(10);
+		Generation p1=new Generation(10);
 		p1.init();
-		generation p2=new generation(10);
+		Generation p2=new Generation(10);
 		p2.init();
 		Event event=new Event(10);
-		ArrayList<generation> childarray= new ArrayList<>();
+		ArrayList<Generation> childarray= new ArrayList<>();
 		GenerationList ge2 = new GenerationList();
 		ge2.crossover(p1, p2, childarray, event);
 		assertEquals(childarray.size(), 2);
